@@ -1,0 +1,172 @@
+
+
+<ion-header>  
+  <ion-toolbar color="primary">
+
+    <ion-buttons  class="serchIcn" start>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>     
+
+    </ion-buttons>
+    <ion-title> FInd Your Dog Match </ion-title>
+    <ion-buttons end>
+        <button  (click)="showMyContainer=!showMyContainer" ion-button icon-only color="royal">
+            <ion-icon name="search"></ion-icon>
+          </button>
+    </ion-buttons>
+  </ion-toolbar>
+  <form  *ngIf="showMyContainer" class="slectForm frmno">
+
+    <ion-list>
+      <ion-item>
+        <ion-label>Select Breed</ion-label>
+        <ion-select [(ngModel)]="dogData.Breed" [ngModelOptions]="{standalone: true}"  cancelText="Cancel" okText="Select">
+            <ion-option [value]="dogBreed" *ngFor = "let dogBreed of breed">{{dogBreed.name}}  </ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+        <ion-item>
+            <ion-label floating>
+              Enter Color of Dog
+            </ion-label>
+            <ion-input placeholder="" type="text" [(ngModel)]="dogData.color" [ngModelOptions]="{standalone: true}"></ion-input>  
+          </ion-item>
+    </ion-list>
+
+<ion-list>
+<ion-item>
+<ion-label>Dog Age</ion-label>
+<ion-datetime class="dgAge" name="dog_age" [ngModelOptions]="{standalone: true}" displayFormat="MMM DD YYYY" [(ngModel)]="dogData.dog_age"></ion-datetime>
+</ion-item>
+</ion-list>
+
+
+    <ion-list>
+        <ion-item>
+          <ion-label>Select Maturity</ion-label>
+          <ion-select [(ngModel)]="dogData.Maturity" [ngModelOptions]="{standalone: true}"  cancelText="Cancel" okText="Select">
+            <ion-option value="Puppy" selected="true">Puppy</ion-option>
+            <ion-option value="Adult">Adult</ion-option>
+
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+          <ion-item>
+            <ion-label>Select Gender</ion-label>
+            <ion-select [(ngModel)]="dogData.Gender" [ngModelOptions]="{standalone: true}"  cancelText="Cancel" okText="Select">
+              <ion-option value="Male" selected="true">Male</ion-option>
+              <ion-option value="Female">Female</ion-option>
+
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+        <ion-list>
+            <ion-item>
+                <ion-label>Country</ion-label>
+                <ion-select (ionChange)="setStateValues(dogData.country)" [(ngModel)]="dogData.country" [ngModelOptions]="{standalone: true}">
+                     <ion-option [value]="countryVal" *ngFor = "let countryVal of country">{{countryVal.name}}  </ion-option>
+               </ion-select>
+
+            </ion-item>
+          </ion-list>
+
+
+    <ion-list>
+        <ion-item *ngIf="selectedState?.length > 0">
+            <ion-label>State</ion-label>
+            <ion-select [(ngModel)]="dogData.State" [ngModelOptions]="{standalone: true}">
+                  <ion-option [value]="sState" *ngFor = "let sState of selectedState">{{sState.name}}</ion-option>
+            </ion-select>
+       </ion-item>
+
+       <ion-item *ngIf="inputState">
+          <ion-label floating>
+           State
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="dogData.State" [ngModelOptions]="{standalone: true}"></ion-input>
+          <ion-input type="hidden" [(ngModel)]="dogData.search" value="yes" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+
+    </ion-list>
+
+
+    <!-- <ion-list>
+        <ion-item>
+            <ion-label floating>
+              Zip
+            </ion-label>
+            <ion-input [(ngModel)]="dogData.Zip" [ngModelOptions]="{standalone: true}"  type="text" value="zip"></ion-input>
+          </ion-item>
+    </ion-list> -->
+
+    <ion-list>
+        <ion-item>
+          <ion-label>Looking For</ion-label>
+          <ion-select [(ngModel)]="dogData.Lookingfor" [ngModelOptions]="{standalone: true}"  multiple="true" cancelText="Nah" okText="Okay!">
+            <ion-option value="4" selected="true">Playmate</ion-option> 
+            <ion-option value="5">Breeding</ion-option>
+
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <div margin-top>
+          <button class="btn-blue btn-round" ion-button block color="dark" tappable (click)="loadData('')">
+          Search
+          </button>
+
+        </div>
+
+
+</form>
+</ion-header>
+
+
+<ion-content padding>
+
+ 
+
+
+	<ion-grid>
+	  <ion-row  class="mb-0" *ngIf="searchData?.length > 0">
+	   <ion-col size="6" class="dogFound"  *ngFor = "let dog of searchData"> 
+
+          <ion-thumbnail item-start (click)="goToDOGdETAILPage(dog.id)">
+            <img src="{{dog.dog_photo}}">
+			<h2 class="onImage">{{dog.dog_name}}</h2>
+          </ion-thumbnail>
+       <!---   <h2>{{dog.dog_name}}</h2>
+          <p style="white-space: normal;font-size: 13px !important;"> {{dog.age_year}} Year {{dog.age_month}} Months {{dog.age_week}} Weeks old from {{dog.state}} , {{dog.country_name}}</p>  ---->
+	   </ion-col>
+	    </ion-row>
+     <!---- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" >
+      <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."> 
+      </ion-infinite-scroll-content>
+</ion-infinite-scroll>---->
+		 <ion-infinite-scroll (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  
+      <!-- <ion-row  class="mb-0" *ngIf="searchData?.length == 0">
+     <ion-col size="12" class="" >
+     <p>Sorry, There is no profile found.</p>
+      </ion-col>
+      </ion-row> -->
+</ion-grid>
+
+
+
+
+
+</ion-content>

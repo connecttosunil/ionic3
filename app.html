@@ -1,0 +1,50 @@
+<ion-menu side="left" id="authenticated" [content]="content">
+  <!--<ion-header>
+    <ion-toolbar class="user-profile">
+      <!--<ion-grid>
+        <ion-row>
+          <ion-col center col-12>
+              <div class="user-avatar">
+                <img src="{{avatar}}">
+              </div>
+          </ion-col>
+          <ion-col center col-12>
+            <h4 ion-text class="no-margin bold text-white">
+            {{displayname}}
+            </h4>
+            <!-- <span ion-text color="light">user</span> -->
+          <!--</ion-col>
+        </ion-row>
+      </ion-grid>-->
+
+    <!--</ion-toolbar>
+  </ion-header>-->
+
+  <ion-content color="primary">
+
+    <ion-list class="user-list userMenu">
+      <button ion-item menuClose class="text-1x" menuClose (click)="getUserProfilePicture()">
+        <ion-icon name="log-out"></ion-icon>
+        Dashboard
+      </button>
+       <button ion-item menuClose class="text-1x" menuClose (click)="goChangePassword()">  
+        <ion-icon name="log-out"></ion-icon>
+        Change Password
+      </button>
+<!--
+      <button ion-item menuClose class="text-1x" menuClose (click)="addprofilepic()">
+        <ion-icon name="contact"></ion-icon>
+        Profile Image
+      </button>-->
+
+      <button ion-item menuClose class="text-1x" menuClose (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+        Log Out
+      </button>
+
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
